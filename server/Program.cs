@@ -56,6 +56,8 @@ CREATE TABLE IF NOT EXISTS products (
     name TEXT NOT NULL UNIQUE,
     price INTEGER NOT NULL,
     category_id INTEGER,
+    description TEXT,
+    image_url TEXT,
     FOREIGN KEY(category_id) REFERENCES categories(id)
         ON DELETE SET NULL
         ON UPDATE CASCADE
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 var createProductsView = @"
 CREATE VIEW IF NOT EXISTS products_view AS
-SELECT products.id, products.name, products.price, categories.name AS category
+SELECT products.id, products.name, products.price, categories.name AS category, description, image_url
 FROM products
 LEFT JOIN categories ON products.category_id = categories.id
 ";
@@ -202,11 +204,13 @@ app.MapPost("/api/products", async (ProductCreate product, SqliteConnection conn
 {
     EnsureConnectionOpen(connection);
 
-    var sql = "INSERT INTO products (name, price, category_id) VALUES ($name, $price, $category_id)";
+    var sql = "INSERT INTO products (name, price, category_id, description, image_url) VALUES ($name, $price, $category_id, $description, $image_url)";
     using var command = new SqliteCommand(sql, connection);
     command.Parameters.AddWithValue("$name", product.Name);
     command.Parameters.AddWithValue("$price", product.Price);
     command.Parameters.AddWithValue("$category_id", product.CategoryId);
+    command.Parameters.AddWithValue("$description", product.Description);
+    command.Parameters.AddWithValue("$image_url", product.Image_url);
     await command.ExecuteNonQueryAsync();
     using var command2 = new SqliteCommand("SELECT last_insert_rowid()", connection);
     var id = (long?)await command2.ExecuteScalarAsync();
@@ -227,7 +231,9 @@ app.MapGet("/api/products", async (SqliteConnection connection) =>
             reader.GetInt32(0),
             reader.GetString(1),
             reader.GetInt32(2),
-            reader.GetString(3)
+            reader.GetString(3),
+            reader.GetString(4),
+            reader.GetString(5)
         );
         products.Add(item);
     }
@@ -237,7 +243,7 @@ app.MapGet("/api/products", async (SqliteConnection connection) =>
 app.MapGet("/api/products/{id}", async (int id, SqliteConnection connection) =>
 {
     EnsureConnectionOpen(connection);
-    var sql = "SELECT * FROM products WHERE id = $id";
+    var sql = "SELECT * FROM products_view WHERE id = $id";
     using var command = new SqliteCommand(sql, connection);
     command.Parameters.AddWithValue("$id", id);
     using var reader = await command.ExecuteReaderAsync();
@@ -247,7 +253,9 @@ app.MapGet("/api/products/{id}", async (int id, SqliteConnection connection) =>
             reader.GetInt32(0),
             reader.GetString(1),
             reader.GetInt32(2),
-            reader.GetString(3)
+            reader.GetString(3),
+            reader.GetString(4),
+            reader.GetString(5)
         );
         return Results.Ok(product);
     }
@@ -263,6 +271,8 @@ app.MapPatch("/api/products/{id}", async (int id, ProductPatch product, SqliteCo
     if (product.Name != null) updates.Add("name = $name");
     if (product.Price != null) updates.Add("price = $price");
     if (product.CategoryId != null) updates.Add("category_id = $categoryId");
+    if (product.Description != null) updates.Add("description = $description");
+    if (product.Image_url != null) updates.Add("image_url = $image_url");
 
     if (updates.Count == 0)
         return Results.BadRequest("No fields to update");
@@ -274,6 +284,8 @@ app.MapPatch("/api/products/{id}", async (int id, ProductPatch product, SqliteCo
     if (product.Name != null) command.Parameters.AddWithValue("$name", product.Name);
     if (product.Price != null) command.Parameters.AddWithValue("$price", product.Price);
     if (product.CategoryId != null) command.Parameters.AddWithValue("$categoryId", product.CategoryId);
+    if (product.Description != null) command.Parameters.AddWithValue("$description", product.Description);
+    if (product.Image_url != null) command.Parameters.AddWithValue("$image_url", product.Image_url);
     command.Parameters.AddWithValue("$id", id);
 
     var rowsAffected = await command.ExecuteNonQueryAsync();
@@ -314,7 +326,9 @@ app.MapGet("/api/{category}/products", async (string category, SqliteConnection 
             reader.GetInt32(0),
             reader.GetString(1),
             reader.GetInt32(2),
-            reader.GetString(3)
+            reader.GetString(3),
+            reader.GetString(4),
+            reader.GetString(5)
         );
         Console.WriteLine(item);
         products.Add(item);

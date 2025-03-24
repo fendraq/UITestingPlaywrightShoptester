@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 
 function Products() {
     const [products, setProducts] = useState([]);
@@ -68,7 +68,7 @@ function Products() {
                         <div key={product.id} style={{ margin: 'auto', justifyContent: 'center' }}>
                             <div style={{ backgroundColor: 'gray', borderRadius: '20px', padding: '15px', width: '250px', height: '350px' }}>
                                 <h4>{product.name}</h4>
-                                <img style={{ width: '150px', height: '150px', backgroundColor: 'white', borderRadius: '50%' }} src={product.image_url} alt={product.name} />
+                                <img style={{ width: '200px', height: '220px', backgroundColor: 'white', borderRadius: '10%' }} src={product.image_url} alt={product.name} />
                                 <p>Price: ${product.price}</p>
                                 <p>{product.description}</p>
                             </div>

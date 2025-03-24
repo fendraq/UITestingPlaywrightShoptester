@@ -2,7 +2,7 @@ const Footer = () => {
 
     return (
         <footer style={footerStyle}>
-            <p>© 2025 Max - Kurs: Testning - ( UI Exempel ). Quote : All your base are belong to us.</p>
+            <p>© 2025 Shoptester Kurs: Testning - ( UI Exempel ). Quote : All your base are belong to us.</p>
         </footer>
     )
 }
