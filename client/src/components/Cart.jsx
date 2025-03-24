@@ -29,7 +29,7 @@ export default function Cart() {
             ) : (
                 <>
                     {cart.map((item) => (
-                        <div key={item.id} className="cart-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px' }}>
+                        <div id={item.name} key={item.id} className="cart-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px' }}>
                             <img
                                 src={item.image_url}
                                 alt={item.name}
@@ -38,16 +38,16 @@ export default function Cart() {
                             <h3 style={{ flex: '1', margin: '0 10px' }}>{item.name}</h3>
                             <p style={{ width: '100px', textAlign: 'right' }}>${item.price}</p>
                             <div className="quantity" style={{ display: 'flex', alignItems: 'center' }}>
-                                <button style={{ marginLeft: '20px' }} onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                                <button id='button-reduce' style={{ marginLeft: '20px' }} onClick={() => updateQuantity(item.id, item.quantity - 1)}>
                                     -
                                 </button>
                                 <span style={{ margin: '0 10px' }}>{item.quantity}</span>
-                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                                <button id='button-add' onClick={() => updateQuantity(item.id, item.quantity + 1)}>
                                     +
                                 </button>
                             </div>
                             <p style={{ width: '100px', textAlign: 'right' }}>Total: ${item.price * item.quantity}</p>
-                            <button style={{ marginLeft: '12px', backgroundColor: 'darkred' }} onClick={() => removeFromCart(item.id)}>Remove</button>
+                            <button id='button-delete' style={{ marginLeft: '12px', backgroundColor: 'darkred' }} onClick={() => removeFromCart(item.id)}>Remove</button>
                         </div>
                     ))}
                     <div className="cart-total" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>

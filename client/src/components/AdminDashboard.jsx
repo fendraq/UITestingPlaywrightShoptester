@@ -82,7 +82,7 @@ export default function AdminDashboard() {
                     <button style={{ margin: '10px', backgroundColor: 'darkgreen' }} onClick={fetchOrders}>Fetch Orders</button>
                 </div>
                 <ul>
-                    {orders.map(order => <li key={order.id}><div style={{ border: '1px solid gray', padding: '10px', display: 'flex', alignItems: 'center' }}>
+                    {orders.map(order => <li key={order.id}><div id={order.id} style={{ border: '1px solid gray', padding: '10px', display: 'flex', alignItems: 'center' }}>
                         <div style={{ flex: 1 }}>
                             <p>ID: {order.id}</p>
                             <p>Username: {order.username}</p>
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
                             <p>Price: {order.price}</p>
                             <p>Date: {Date(order.created_at)}</p>
                         </div>
-                        <button style={{ margin: '10px', backgroundColor: 'darkred' }} onClick={() => handleDeleteOrder(order.id)}>Delete order</button>
+                        <button id='button-delete' style={{ margin: '10px', backgroundColor: 'darkred' }} onClick={() => handleDeleteOrder(order.id)}>Delete order</button>
                     </div></li>)}
                 </ul>
 
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
                     <button style={{ margin: '10px', backgroundColor: 'darkgreen' }} onClick={fetchProducts}>Fetch Products</button>
                 </div>
                 <ul>
-                    {products.map(product => <li key={product.id}><div style={{ border: '1px solid gray', padding: '10px', display: 'flex', alignItems: 'center' }}>
+                    {products.map(product => <li key={product.id}><div id={product.name} style={{ border: '1px solid gray', padding: '10px', display: 'flex', alignItems: 'center' }}>
                         <div style={{ flex: 1 }}>
                             <p>{product.name}</p>
                             <p>{product.price}</p>

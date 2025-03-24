@@ -49,8 +49,9 @@ function Products() {
                         {category}
                     </button>
                 ))}
-                <input style={{ margin: '5px', padding: '5px', borderRadius: '5px', float: 'right' }}
+                <input id='search' style={{ margin: '5px', padding: '5px', borderRadius: '5px', float: 'right' }}
                     type="text"
+                    name="search"
                     placeholder="Search products"
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
@@ -68,14 +69,14 @@ function Products() {
             }}>
                 {filteredProducts.length < 1 ? <p>No products!</p> :
                     filteredProducts.map((product) => (
-                        <div id={product.name} key={product.id} style={{ margin: 'auto', justifyContent: 'center' }} >
-                            <div style={{ backgroundColor: 'gray', borderRadius: '20px', padding: '15px', width: '250px', height: '350px' }}>
+                        <div key={product.id} style={{ margin: 'auto', justifyContent: 'center' }} >
+                            <div id={product.name.toLowerCase()} style={{ backgroundColor: 'gray', borderRadius: '20px', padding: '15px', width: '250px', height: '350px' }}>
                                 <h4>{product.name}</h4>
                                 <img style={{ cursor: 'pointer', width: '200px', height: '220px', backgroundColor: 'white', borderRadius: '10%' }} src={product.image_url} alt={product.name} onClick={() => navigate(`/shop/product/${product.id}`)} />
                                 <p>Price: ${product.price}</p>
                                 <p>{product.description}</p>
                             </div>
-                            <button onClick={() => {
+                            <button id={'button-add-' + product.name.toLowerCase()} onClick={() => {
                                 addToCart(product);
                                 //console.log('Added to cart:', product.name);
                             }}>

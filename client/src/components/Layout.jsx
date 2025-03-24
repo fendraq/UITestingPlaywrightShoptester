@@ -80,9 +80,9 @@ function Layout() {
         <header>
             <nav className="navbar">
                 {user ? <NavLink to={`/profile`}>Profile</NavLink> : null}
-                <NavLink to={"/"}>Home</NavLink>
-                <NavLink to={"/shop"}>Shop</NavLink>
-                <NavLink to={"/cart"}>Cart ({getTotalItems()})</NavLink>
+                <NavLink id="nav-home" to={"/"}>Home</NavLink>
+                <NavLink id="nav-shop" to={"/shop"}>Shop</NavLink>
+                <NavLink id="nav-cart" to={"/cart"}>Cart ({getTotalItems()})</NavLink>
                 {user && user.role == "admin" ? <NavLink to={"/admin"}>Admin</NavLink> : null}
                 {user ? (
                     <span id="logged-in-user">Welcome, {user.username.charAt(0).toUpperCase() + user.username.slice(1)}</span>
@@ -99,7 +99,7 @@ function Layout() {
             <div className="dialog-overlay">
                 <div className="dialog">
                     <h2>Login</h2>
-                    <form onSubmit={handleSubmit}>
+                    <form id="login-form" onSubmit={handleSubmit}>
                         <label>
                             Email:
                             <input
