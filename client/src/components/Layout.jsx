@@ -59,7 +59,6 @@ function Layout() {
             const data = await response.json();
             login(data); // Use context login instead of localStorage
             console.log("Login successful!", data);
-            console.log("Individual user data is going here:");
 
         } else {
             console.error("Login failed!");
@@ -71,8 +70,10 @@ function Layout() {
     return <>
         <header>
             <nav className="navbar">
+                {user && user.role != "admin" ? <NavLink to={`/profile`}>Profile</NavLink> : null}
                 <NavLink to={"/"}>Home</NavLink>
                 <NavLink to={"/shop"}>Shop</NavLink>
+                {user && user.role == "admin" ? <NavLink to={"/admin"}>Admin</NavLink> : null}
                 {user ? (
                     <span id="logged-in-user">Welcome, {user.username.charAt(0).toUpperCase() + user.username.slice(1)}</span>
                 ) : (

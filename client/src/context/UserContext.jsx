@@ -14,8 +14,10 @@ export function UserProvider({ children }) {
                 });
                 if (response.ok) {
                     const userData = await response.json();
-                    setUser(userData);
-                    console.log('Session verified:', userData);
+                    if (userData.id) {
+                        setUser(userData);
+                        console.log('Session verified:', userData);
+                    }
                 }
                 if (!response.ok) {
                     console.log('No active session found');
@@ -32,6 +34,7 @@ export function UserProvider({ children }) {
 
     const login = (userData) => {
         setUser(userData);
+        console.log(userData);
     };
 
     const logout = () => {
