@@ -16,12 +16,12 @@ export function UserProvider({ children }) {
                     const userData = await response.json();
                     if (userData.id) {
                         setUser(userData);
-                        console.log('Session verified:', userData);
+                        //console.log('Session verified:', userData);
                     }
                 }
-                if (!response.ok) {
-                    console.log('No active session found');
-                }
+                //if (!response.ok) {
+                //    console.log('No active session found');
+                //}
             } catch (error) {
                 console.error('Session verification failed:', error);
             } finally {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer"
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
@@ -10,6 +11,7 @@ function Layout() {
     const [password, setPassword] = useState("");
     const { user, login, logout } = useUser();
     const { cart } = useCart();
+    const navigate = useNavigate();
 
     const toggleLogoutButton = () => {
         const logoutButton = document.getElementById("logout-button");
@@ -41,14 +43,15 @@ function Layout() {
             method: "DELETE",
             credentials: "include"
         });
-        logout(); // Use context logout instead of localStorage
-        console.log("Logout successful!");
+        logout();
+        navigate("/");
+        //console.log("Logout successful!");
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
+        //console.log("Email:", email);
+        //console.log("Password:", password);
         const response = await fetch("/api/login", {
             method: "POST",
             headers: {
@@ -59,23 +62,27 @@ function Layout() {
         });
         if (response.ok) {
             const data = await response.json();
-            login(data); // Use context login instead of localStorage
-            console.log("Login successful!", data);
+            login(data);
+            //console.log("Login successful!", data);
 
         } else {
+            alert("Login failed!");
             console.error("Login failed!");
         }
 
         setIsDialogOpen(false);
     };
+    const getTotalItems = () => {
+        return cart.reduce((total, item) => total + item.quantity, 0);
+    };
 
     return <>
         <header>
             <nav className="navbar">
-                <NavLink to={"/cart"}>Cart ({cart.length})</NavLink>
-                {user && user.role != "admin" ? <NavLink to={`/profile`}>Profile</NavLink> : null}
+                {user ? <NavLink to={`/profile`}>Profile</NavLink> : null}
                 <NavLink to={"/"}>Home</NavLink>
                 <NavLink to={"/shop"}>Shop</NavLink>
+                <NavLink to={"/cart"}>Cart ({getTotalItems()})</NavLink>
                 {user && user.role == "admin" ? <NavLink to={"/admin"}>Admin</NavLink> : null}
                 {user ? (
                     <span id="logged-in-user">Welcome, {user.username.charAt(0).toUpperCase() + user.username.slice(1)}</span>

@@ -77,7 +77,7 @@ function Products() {
                             </div>
                             <button onClick={() => {
                                 addToCart(product);
-                                console.log('Added to cart:', product.name);
+                                //console.log('Added to cart:', product.name);
                             }}>
                                 Add to Cart
                             </button>

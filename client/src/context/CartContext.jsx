@@ -1,9 +1,62 @@
 import { createContext, useContext, useState } from 'react';
+import { useUser } from './UserContext';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
+    const { user } = useUser();
+
+    const createOrder = async (item) => {
+        if (!user) {
+            throw new Error('Must be logged in to create order');
+        }
+
+        try {
+            const response = await fetch('/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    customerId: user.id,
+                    productId: item.id,
+                    quantity: item.quantity
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create order');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Order creation failed:', error);
+            throw error;
+        }
+    };
+
+    const checkout = async () => {
+        if (!user) {
+            throw new Error('Must be logged in to checkout');
+        }
+
+        try {
+            // Create orders for each cart item
+            const orders = await Promise.all(
+                cart.map(item => createOrder(item))
+            );
+
+            // Clear the cart after successful checkout
+            clearCart();
+            //console.log('Orders:', orders);
+            return orders;
+        } catch (error) {
+            console.error('Checkout failed:', error);
+            throw error;
+        }
+    };
 
     const addToCart = (product) => {
         setCart(currentCart => {
@@ -53,7 +106,9 @@ export function CartProvider({ children }) {
             removeFromCart,
             updateQuantity,
             clearCart,
-            getTotal
+            getTotal,
+            checkout,
+            user
         }}>
             {children}
         </CartContext.Provider>

@@ -15,16 +15,16 @@ export default function Profile() {
                 if (response.ok) {
                     const ordersData = await response.json();
                     setOrders(ordersData);
-                    console.log('Orders:', ordersData);
+                    //console.log('Orders:', ordersData);
                     let result = 0;
                     ordersData.forEach(order => {
                         result += order.total;
                     });
                     setTotalSpent(result);
-                    console.log('Total spent:', totalSpent);
+                    //console.log('Total spent:', totalSpent);
                 }
                 if (!response.ok) {
-                    console.log('No orders found');
+                    //console.log('No orders found');
                 }
             } catch (error) {
                 console.error('Orders fetch failed:', error);
@@ -46,7 +46,7 @@ export default function Profile() {
             <p>Your role: {user.role}</p>
             <p>Total amount spent: {totalSpent}$</p>
             <div>
-                <h2>List of your orders:</h2>
+                <h2>Order history:</h2>
                 {orders.length < 1 ? <p>No orders!</p> :
                     <ul>
                         {orders.map(order => (

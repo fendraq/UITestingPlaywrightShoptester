@@ -1,7 +1,25 @@
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Cart() {
-    const { cart, removeFromCart, updateQuantity, getTotal } = useCart();
+    const { cart, removeFromCart, updateQuantity, getTotal, checkout, user } = useCart();
+    const navigate = useNavigate();
+
+
+    const handleCheckout = async () => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+
+        try {
+            await checkout();
+            //console.log(orders);
+        } catch (error) {
+            alert('Failed to place order: ' + error.message);
+        }
+    };
 
     return (
         <div className="cart">
@@ -11,29 +29,44 @@ export default function Cart() {
             ) : (
                 <>
                     {cart.map((item) => (
-                        <div key={item.id} className="cart-item" style={{ display: 'flex', justifyContent: 'space-between', margin: '10px' }}>
+                        <div key={item.id} className="cart-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px' }}>
                             <img
                                 src={item.image_url}
                                 alt={item.name}
                                 style={{ width: '50px', height: '50px' }}
                             />
-                            <h3>{item.name}</h3>
-                            <p>${item.price}</p>
-                            <div className="quantity">
-                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                            <h3 style={{ flex: '1', margin: '0 10px' }}>{item.name}</h3>
+                            <p style={{ width: '100px', textAlign: 'right' }}>${item.price}</p>
+                            <div className="quantity" style={{ display: 'flex', alignItems: 'center' }}>
+                                <button style={{ marginLeft: '20px' }} onClick={() => updateQuantity(item.id, item.quantity - 1)}>
                                     -
                                 </button>
-                                <span style={{ margin: '10px' }}>{item.quantity}</span>
+                                <span style={{ margin: '0 10px' }}>{item.quantity}</span>
                                 <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
                                     +
                                 </button>
                             </div>
-                            <p>Total: ${item.price * item.quantity}</p>
-                            <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                            <p style={{ width: '100px', textAlign: 'right' }}>Total: ${item.price * item.quantity}</p>
+                            <button style={{ marginLeft: '12px', backgroundColor: 'darkred' }} onClick={() => removeFromCart(item.id)}>Remove</button>
                         </div>
                     ))}
-                    <div className="cart-total">
+                    <div className="cart-total" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>
                         <h3>Total: ${getTotal()}</h3>
+                        <button
+                            id='checkout-button'
+                            onClick={handleCheckout}
+                            disabled={!user}
+                            style={{
+                                padding: '10px 20px',
+                                backgroundColor: user ? '#4CAF50' : '#cccccc',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: user ? 'pointer' : 'not-allowed'
+                            }}
+                        >
+                            {user ? 'Checkout' : 'Login to Checkout'}
+                        </button>
                     </div>
                 </>
             )}
