@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router";
 import Footer from "../components/Footer"
 import { useUser } from '../context/UserContext';
+import { useCart } from '../context/CartContext';
 
 function Layout() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { user, login, logout } = useUser();
+    const { cart } = useCart();
 
     const toggleLogoutButton = () => {
         const logoutButton = document.getElementById("logout-button");
@@ -70,6 +72,7 @@ function Layout() {
     return <>
         <header>
             <nav className="navbar">
+                <NavLink to={"/cart"}>Cart ({cart.length})</NavLink>
                 {user && user.role != "admin" ? <NavLink to={`/profile`}>Profile</NavLink> : null}
                 <NavLink to={"/"}>Home</NavLink>
                 <NavLink to={"/shop"}>Shop</NavLink>

@@ -8,22 +8,27 @@ import Details from './components/Details';
 import AdminDashboard from './components/AdminDashboard';
 import ProtectedRoute from './util/ProtectedRoute';
 import Profile from './components/Profile';
+import { CartProvider } from './context/CartContext';
+import Cart from './components/Cart';
 
 function App() {
 
   return (
     <UserProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />} >
-            <Route index element={<Home />} />
-            <Route path='/shop' element={<Products />} />
-            <Route path='/shop/product/:id' element={<Details />} />
-            <Route path='/admin' element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-            <Route path='/profile' element={<Profile />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />} >
+              <Route index element={<Home />} />
+              <Route path='/shop' element={<Products />} />
+              <Route path='/shop/product/:id' element={<Details />} />
+              <Route path='/admin' element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/cart' element={<Cart />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </UserProvider>
   )
 }

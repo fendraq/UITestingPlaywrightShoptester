@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useCart } from '../context/CartContext';
 
 function Products() {
     const [products, setProducts] = useState([]);
@@ -8,6 +9,7 @@ function Products() {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
+    const { addToCart } = useCart();
 
     useEffect(() => {
         if (search === "") {
@@ -73,7 +75,12 @@ function Products() {
                                 <p>Price: ${product.price}</p>
                                 <p>{product.description}</p>
                             </div>
-                            <button>Add to cart</button>
+                            <button onClick={() => {
+                                addToCart(product);
+                                console.log('Added to cart:', product.name);
+                            }}>
+                                Add to Cart
+                            </button>
                         </div>
                     ))
                 }
