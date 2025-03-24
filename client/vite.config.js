@@ -9,5 +9,8 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:5000'
     }
+  },
+  build: {
+    outDir: '../server/wwwroot'
   }
 })

@@ -26,6 +26,11 @@ builder.Services.AddSingleton(ServiceProvider =>
 var app = builder.Build();
 app.UseSession();
 
+// Use static files for the wwwroot folder
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+
 // Database setup
 await DatabaseSeeder.PopulateSampleData(app.Services.GetRequiredService<SqliteConnection>());
 
