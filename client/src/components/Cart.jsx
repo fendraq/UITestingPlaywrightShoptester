@@ -1,11 +1,11 @@
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react'; // Add this import
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, getTotal, checkout, user } = useCart();
     const navigate = useNavigate();
-
+    const [confirmationMessage, setConfirmationMessage] = useState('');
 
     const handleCheckout = async () => {
         if (!user) {
@@ -15,15 +15,28 @@ export default function Cart() {
 
         try {
             await checkout();
-            //console.log(orders);
+            setConfirmationMessage('Order placed successfully! Thank you for your purchase.');
         } catch (error) {
-            alert('Failed to place order: ' + error.message);
+            setConfirmationMessage('Failed to place order: ' + error.message);
         }
     };
 
     return (
         <div className="cart">
             <h2>Shopping Cart</h2>
+            {confirmationMessage && (
+                <div style={{
+                    padding: '10px',
+                    margin: '10px 0',
+                    color: 'black',
+                    backgroundColor: confirmationMessage.includes('Failed') ? '#ffebee' : '#e8f5e9',
+                    border: '1px solid',
+                    borderColor: confirmationMessage.includes('Failed') ? '#ef5350' : '#66bb6a',
+                    borderRadius: '4px'
+                }}>
+                    {confirmationMessage}
+                </div>
+            )}
             {cart.length === 0 ? (
                 <p>Your cart is empty</p>
             ) : (
