@@ -58,9 +58,9 @@ public static class ProductHandlers
     {
         EnsureConnectionOpen(connection);
         if (string.IsNullOrWhiteSpace(product.Name) || product.Price == null || product.CategoryId == 0)
-            return Results.BadRequest("Name, price, and category_id are required");
+            return Results.BadRequest(new { error = "Name, price, and category_id are required" });
         if (product.Price < 0)
-            return Results.BadRequest("Price must be a positive number");
+            return Results.BadRequest(new { error = "Price must be a positive number" });
         var sql = "INSERT INTO products (name, price, category_id) VALUES ($name, $price, $category_id)";
         using var command = new SqliteCommand(sql, connection);
         command.Parameters.AddWithValue("$name", product.Name);
@@ -91,7 +91,7 @@ public static class ProductHandlers
         if (product.CategoryId != null) updates.Add("category_id = $categoryId");
 
         if (updates.Count == 0)
-            return Results.BadRequest("No fields to update");
+            return Results.BadRequest(new { error = "No fields to update" });
 
         var sql = $"UPDATE products SET {string.Join(", ", updates)} WHERE id = $id";
         using var command = new SqliteCommand(sql, connection);
@@ -104,7 +104,7 @@ public static class ProductHandlers
 
         var rowsAffected = await command.ExecuteNonQueryAsync();
         if (rowsAffected == 0)
-            return Results.NotFound();
+            return Results.NotFound(new { message = $"Product with id:{id} not found" });
 
         Console.WriteLine($"Info: Product ID:{id} updated in database");
         return Results.Ok(new { message = $"Product with id:{id} updated" });

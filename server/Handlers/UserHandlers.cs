@@ -49,14 +49,14 @@ public static class UserHandlers
             );
             return Results.Ok(user);
         }
-        return Results.NotFound("User not found");
+        return Results.NotFound(new { message = "User not found" });
     }
 
     public static async Task<IResult> CreateUser(SqliteConnection connection, UserCreate user)
     {
         EnsureConnectionOpen(connection);
         if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password) || user.RoleId == null)
-            return Results.BadRequest("Username, email, password, and role_id are required");
+            return Results.BadRequest(new { error = "Username, email, password and role are required" });
         var sql = "INSERT INTO users (username, email, password, role_id) VALUES ($username, $email, $password, $role_id)";
         using var command = new SqliteCommand(sql, connection);
         command.Parameters.AddWithValue("$username", user.Username);

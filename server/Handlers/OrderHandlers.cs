@@ -57,7 +57,7 @@ public static class OrderHandlers
             );
             return Results.Ok(order);
         }
-        return Results.NotFound("Order not found");
+        return Results.NotFound(new { message = "Order not found" });
     }
 
     public static async Task<IResult> CreateOrder(SqliteConnection connection, HttpContext context, OrderCreate order)
@@ -65,11 +65,11 @@ public static class OrderHandlers
         EnsureConnectionOpen(connection);
 
         if (order.ProductId == 0 || order.Quantity == 0)
-            return Results.BadRequest("Product ID and quantity are required");
+            return Results.BadRequest(new { error = "Product ID and quantity are required" });
         if (order.Quantity < 0)
-            return Results.BadRequest("Quantity cannot be negative");
+            return Results.BadRequest(new { error = "Quantity cannot be negative" });
         if (order.ProductId < 0)
-            return Results.BadRequest("Product ID cannot be negative");
+            return Results.BadRequest(new { error = "Product ID cannot be negative" });
 
         var customerId = context.Session.GetInt32("id");
         if (customerId == null)
@@ -79,7 +79,7 @@ public static class OrderHandlers
         priceCommand.Parameters.AddWithValue("$id", order.ProductId);
         var price = await priceCommand.ExecuteScalarAsync();
         if (price == null)
-            return Results.NotFound("Product not found");
+            return Results.NotFound(new { message = "Product not found" });
 
         var sql = "INSERT INTO orders (customer_id, product_id, quantity, price) VALUES ($customer_id, $product_id, $quantity, $price)";
         using var command = new SqliteCommand(sql, connection);
@@ -156,6 +156,6 @@ public static class OrderHandlers
             );
             return Results.Ok(order);
         }
-        return Results.NotFound("Order not found");
+        return Results.NotFound(new { message = "Order not found" });
     }
 }
