@@ -61,11 +61,19 @@ public static class UserHandlers
         command.Parameters.AddWithValue("$email", user.Email);
         command.Parameters.AddWithValue("$password", user.Password);
         command.Parameters.AddWithValue("$role_id", user.RoleId);
-        await command.ExecuteNonQueryAsync();
-        using var command2 = new SqliteCommand("SELECT last_insert_rowid()", connection);
-        var id = (long?)await command2.ExecuteScalarAsync();
-        Console.WriteLine($"Info: User {user.Username} added to database");
-        return Results.Ok(new { username = user.Username, email = user.Email, password = user.Password, role = user.RoleId, insertId = id });
+
+        try
+        {
+            await command.ExecuteNonQueryAsync();
+            using var command2 = new SqliteCommand("SELECT last_insert_rowid()", connection);
+            var id = (long?)await command2.ExecuteScalarAsync();
+            Console.WriteLine($"Info: User {user.Username} added to database");
+            return Results.Ok(new { username = user.Username, email = user.Email, password = user.Password, role = user.RoleId, insertId = id });
+        }
+        catch (SqliteException ex) when (ex.SqliteErrorCode == 19)
+        {
+            return Results.Conflict(new { error = "A user with the same email already exists." });
+        }
     }
 
     public static async Task<IResult> UpdateUser(SqliteConnection connection, int id, UserPatch user)

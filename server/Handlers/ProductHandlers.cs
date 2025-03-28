@@ -62,11 +62,20 @@ public static class ProductHandlers
         command.Parameters.AddWithValue("$name", product.Name);
         command.Parameters.AddWithValue("$price", product.Price);
         command.Parameters.AddWithValue("$category_id", product.CategoryId);
-        await command.ExecuteNonQueryAsync();
-        using var command2 = new SqliteCommand("SELECT last_insert_rowid()", connection);
-        var id = (long?)await command2.ExecuteScalarAsync();
-        Console.WriteLine($"Info: Product {product.Name} added to database");
-        return Results.Json(new { name = product.Name, price = product.Price, category = product.CategoryId, insertId = id }, statusCode: 201);
+
+        try
+        {
+
+            await command.ExecuteNonQueryAsync();
+            using var command2 = new SqliteCommand("SELECT last_insert_rowid()", connection);
+            var id = (long?)await command2.ExecuteScalarAsync();
+            Console.WriteLine($"Info: Product {product.Name} added to database");
+            return Results.Json(new { name = product.Name, price = product.Price, category = product.CategoryId, insertId = id }, statusCode: 201);
+        }
+        catch (SqliteException ex) when (ex.SqliteErrorCode == 19)
+        {
+            return Results.Conflict(new { error = "A product with the same name already exists." });
+        }
     }
 
     public static async Task<IResult> UpdateProduct(SqliteConnection connection, int id, ProductPatch product)
