@@ -64,6 +64,13 @@ public static class OrderHandlers
     {
         EnsureConnectionOpen(connection);
 
+        if (order.ProductId == 0 || order.Quantity == 0)
+            return Results.BadRequest("Product ID and quantity are required");
+        if (order.Quantity < 0)
+            return Results.BadRequest("Quantity cannot be negative");
+        if (order.ProductId < 0)
+            return Results.BadRequest("Product ID cannot be negative");
+
         var customerId = context.Session.GetInt32("id");
         if (customerId == null)
             return Results.Unauthorized();

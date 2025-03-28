@@ -57,6 +57,10 @@ public static class ProductHandlers
     public static async Task<IResult> CreateProduct(SqliteConnection connection, ProductCreate product)
     {
         EnsureConnectionOpen(connection);
+        if (string.IsNullOrWhiteSpace(product.Name) || product.Price == null || product.CategoryId == 0)
+            return Results.BadRequest("Name, price, and category_id are required");
+        if (product.Price < 0)
+            return Results.BadRequest("Price must be a positive number");
         var sql = "INSERT INTO products (name, price, category_id) VALUES ($name, $price, $category_id)";
         using var command = new SqliteCommand(sql, connection);
         command.Parameters.AddWithValue("$name", product.Name);
