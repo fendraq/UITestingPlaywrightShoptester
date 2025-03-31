@@ -73,11 +73,14 @@ function Layout() {
             body: JSON.stringify({ email, username, password, roleId }),
         });
         if (response.ok) {
-            alert("Registration successful!");
             const data = await response.json();
-            login(data);
+            window.location.reload();
             setIsRegisterDialogOpen(false);
             console.log("Registration successful!", data);
+            setConfirmPassword("");
+            setEmail("");
+            setPassword("");
+            setUsername("");
         } else {
             alert("Registration failed!");
             console.error("Registration failed!");
