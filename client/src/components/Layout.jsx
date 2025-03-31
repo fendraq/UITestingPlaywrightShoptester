@@ -12,6 +12,7 @@ function Layout() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setUsername] = useState("");
     const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState('');
     const { user, login, logout } = useUser();
     const { cart } = useCart();
     const navigate = useNavigate();
@@ -73,10 +74,11 @@ function Layout() {
             body: JSON.stringify({ email, username, password, roleId }),
         });
         if (response.ok) {
-            const data = await response.json();
-            window.location.reload();
             setIsRegisterDialogOpen(false);
-            console.log("Registration successful!", data);
+            setConfirmationMessage('Registration successfull!');
+            setTimeout(() => setConfirmationMessage(''), 5000);
+            //setTimeout(() => { window.location.reload(); }, 5000);
+
             setConfirmPassword("");
             setEmail("");
             setPassword("");
@@ -85,6 +87,7 @@ function Layout() {
             alert("Registration failed!");
             console.error("Registration failed!");
         }
+
     }
 
 
@@ -101,13 +104,16 @@ function Layout() {
         if (response.ok) {
             const data = await response.json();
             login(data);
+            setConfirmationMessage('Login successfull!');
+            setTimeout(() => setConfirmationMessage(''), 5000);
             //console.log("Login successful!", data);
 
         } else {
             alert("Login failed!");
             console.error("Login failed!");
         }
-
+        setEmail("");
+        setPassword("");
         setIsLoginDialogOpen(false);
     };
     const getTotalItems = () => {
@@ -218,6 +224,29 @@ function Layout() {
                         </div>
                     </form>
                 </div>
+            </div>
+        )}
+        {confirmationMessage && (
+            <div id='confirmation' style={{
+                padding: '10px',
+                margin: '10px 0',
+                backgroundColor: confirmationMessage.includes('Error') || confirmationMessage.includes('Failed')
+                    ? '#ffebee'
+                    : '#e8f5e9',
+                color: confirmationMessage.includes('Error') || confirmationMessage.includes('Failed')
+                    ? '#c62828'
+                    : '#2e7d32',
+                border: '1px solid',
+                borderColor: confirmationMessage.includes('Error') || confirmationMessage.includes('Failed')
+                    ? '#ef5350'
+                    : '#66bb6a',
+                borderRadius: '4px',
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                zIndex: 1000
+            }}>
+                {confirmationMessage}
             </div>
         )}
     </>
