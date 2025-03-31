@@ -206,34 +206,34 @@ public static class DatabaseSeeder
         // Sample Products
         var products = new[]
         {
-        (Name: "Laptop", Price: 999, Category: "Electronics"),
-        (Name: "Smartphone", Price: 499, Category: "Electronics"),
-        (Name: "The Great Gatsby", Price: 10, Category: "Books"),
-        (Name: "1984", Price: 12, Category: "Books"),
-        (Name: "T-Shirt", Price: 20, Category: "Clothing"),
-        (Name: "Jeans", Price: 45, Category: "Clothing"),
-        (Name: "Pizza", Price: 15, Category: "Food"),
-        (Name: "Burger", Price: 8, Category: "Food"),
-        (Name: "Headphones", Price: 50, Category: "Electronics"),
-        (Name: "Mouse", Price: 20, Category: "Electronics"),
-        (Name: "Keyboard", Price: 30, Category: "Electronics"),
-        (Name: "The Catcher in the Rye", Price: 15, Category: "Books"),
-        (Name: "To Kill a Mockingbird", Price: 18, Category: "Books"),
-        (Name: "Dress", Price: 35, Category: "Clothing"),
-        (Name: "Sweater", Price: 25, Category: "Clothing"),
-        (Name: "Pasta", Price: 12, Category: "Food"),
-        (Name: "Salad", Price: 10, Category: "Food"),
-        (Name: "Monitor", Price: 150, Category: "Electronics"),
-        (Name: "Tablet", Price: 80, Category: "Electronics"),
-        (Name: "War and Peace", Price: 20, Category: "Books"),
-        (Name: "The Odyssey", Price: 22, Category: "Books"),
-        (Name: "Jacket", Price: 55, Category: "Clothing"),
-        (Name: "Shoes", Price: 40, Category: "Clothing"),
-        (Name: "Ice Cream", Price: 5, Category: "Food"),
-        (Name: "Cake", Price: 18, Category: "Food"),
-        (Name: "Printer", Price: 100, Category: "Electronics"),
-        (Name: "Camera", Price: 200, Category: "Electronics"),
-        (Name: "The Divine Comedy", Price: 25, Category: "Books")
+        (Name: "Laptop", Price: 999, Category: "Electronics", Image_url: "https://cdn.thewirecutter.com/wp-content/media/2024/11/BEST-LAPTOPS-PHOTO-VIDEO-EDITING-2048px-6.jpg"),
+        (Name: "Smartphone", Price: 499, Category: "Electronics", Image_url: "https://cdn.thewirecutter.com/wp-content/media/2024/05/smartphone-2048px-1013.jpg"),
+        (Name: "The Great Gatsby", Price: 10, Category: "Books", Image_url: "https://m.media-amazon.com/images/I/71V1cA2fiZL._AC_UF1000,1000_QL80_.jpg"),
+        (Name: "1984", Price: 12, Category: "Books", Image_url: "https://cdn.ibpbooks.com/images/sdf/1985.jpg"),
+        (Name: "T-Shirt", Price: 20, Category: "Clothing", Image_url: "https://nobero.com/cdn/shop/files/aloe-green_465e61f9-b1b2-4a8d-9cf5-339150cfed64.jpg?v=1724760910"),
+        (Name: "Jeans", Price: 45, Category: "Clothing", Image_url: "https://images.only.com/15327177/4544723/001/only-onlharleylwbaggylooseazdnmfw-blaat.jpg?v=3bffdc08dda35e47ba382069cfd38327&format=webp&width=1280&quality=90&key=25-0-3"),
+        (Name: "Pizza", Price: 15, Category: "Food", Image_url: "https://images.arla.com/recordid/1B752FAF-42F2-4347-9E8B99C5E6B782A9/pizza.jpg?width=1200&height=630&mode=crop&format=jpg"),
+        (Name: "Burger", Price: 8, Category: "Food", Image_url: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/5f/44/34/smashed-patty-burger.jpg?w=900&h=500&s=1"),
+        (Name: "Headphones", Price: 50, Category: "Electronics", Image_url: "https://zildjian.com/cdn/shop/files/Zildjian-ALCHEM-E-Perfect-Tune-Headphones-Black-Product-Image-1_f4fa0315-beee-4fa5-952d-ed141c448aef.jpg?v=1724252909&width=1946"),
+        (Name: "Mouse", Price: 20, Category: "Electronics", Image_url: "https://us.v-cdn.net/6036147/uploads/67SAKXLFNL4I/l-10-8-1-1200x675.jpg"),
+        (Name: "Keyboard", Price: 30, Category: "Electronics", Image_url: "https://preview.redd.it/in-search-of-a-vintage-keyboard-the-ibm-model-m-v0-4opfq1h4ikra1.jpg?width=1350&format=pjpg&auto=webp&s=dbcf010d70a9b1f00ee1b85ca6ab6bc5f412c07e"),
+        (Name: "The Catcher in the Rye", Price: 15, Category: "Books", Image_url: "https://m.media-amazon.com/images/I/91fQEUwFMyL.jpg"),
+        (Name: "To Kill a Mockingbird", Price: 18, Category: "Books", Image_url: "https://m.media-amazon.com/images/I/71FxgtFKcQL._AC_UF1000,1000_QL80_.jpg"),
+        (Name: "Dress", Price: 35, Category: "Clothing", Image_url: "https://styleshops.com.ph/cdn/shop/files/unica-x-wwf-dresses-wistoria-dress-42503827357927.jpg?v=1719768012"),
+        (Name: "Sweater", Price: 25, Category: "Clothing", Image_url: "https://m.media-amazon.com/images/I/81L5shykO1L._AC_UY1000_.jpg"),
+        (Name: "Pasta", Price: 12, Category: "Food", Image_url: "https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/k%2FPhoto%2FRecipes%2F2023-01-Caramelized-Tomato-Paste-Pasta%2F06-CARAMELIZED-TOMATO-PASTE-PASTA-039"),
+        (Name: "Salad", Price: 10, Category: "Food", Image_url: "https://images.ctfassets.net/e8gvzq1fwq00/73CwiO6e5qknz5D748ZJwj/c48bcf07f527d91b09f684cb6484975c/Sallad_med_stekt_tofu__avokado__bl__b__r_och_honungsvin__grett_desktop.png"),
+        (Name: "Monitor", Price: 150, Category: "Electronics", Image_url: "https://www.livemint.com/lm-img/img/2024/11/21/600x338/best_pc_monitor_1732218689673_1732218701023.jpg"),
+        (Name: "Tablet", Price: 80, Category: "Electronics", Image_url: "https://m.media-amazon.com/images/I/71pMKb47muL._AC_SL1500_.jpg"),
+        (Name: "War and Peace", Price: 20, Category: "Books", Image_url: "https://cdn.kobo.com/book-images/3ac03eac-d437-47e3-9b15-52542edabd56/1200/1200/False/war-and-peace-34.jpg"),
+        (Name: "The Odyssey", Price: 22, Category: "Books", Image_url: "https://mpd-biblio-covers.imgix.net/9781429973427.jpg"),
+        (Name: "Jacket", Price: 55, Category: "Clothing", Image_url: "https://m.media-amazon.com/images/I/8118R-2U6wL._AC_SL1500_.jpg"),
+        (Name: "Shoes", Price: 40, Category: "Clothing", Image_url: "https://miro.medium.com/v2/resize:fit:403/1*6sTlqGOGW5XR12pAnaWTJQ.jpeg"),
+        (Name: "Ice Cream", Price: 5, Category: "Food", Image_url: "https://bitzngiggles.com/wp-content/uploads/2020/02/Rainbow-Ice-Cream-14-copy-500x500.jpg"),
+        (Name: "Cake", Price: 18, Category: "Food", Image_url: "https://recipesblob.oetker.co.uk/assets/46b664a502ce4ebdb241e6667ce789b7/360x400/pinata-rainbow-cake.webp"),
+        (Name: "Printer", Price: 100, Category: "Electronics", Image_url: "https://www.lifewire.com/thmb/_GOO_BLQmZ9z8skP1R1_ZMBJ5vY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/printer-649004582-31623906dc38475bba79c63b0d18d761.jpg"),
+        (Name: "Camera", Price: 200, Category: "Electronics", Image_url: "https://media.istockphoto.com/id/185278433/photo/black-digital-slr-camera-in-a-white-background.jpg?s=612x612&w=0&k=20&c=OOCbhvOF0W-eVhhrm-TxbgLfbKhFfs4Lprjd7hiQBNU="),
+        (Name: "The Divine Comedy", Price: 25, Category: "Books", Image_url: "https://notebookm.com/wp-content/uploads/2024/06/divine-comedy-cover.jpg")
     };
 
         foreach (var product in products)
@@ -241,8 +241,8 @@ public static class DatabaseSeeder
             try
             {
                 using var command = new SqliteCommand(@"
-                INSERT INTO products (name, price, category_id)
-                SELECT $name, $price, id
+                INSERT INTO products (name, price, category_id, description, image_url)
+                SELECT $name, $price, id, $description, $image_url
                 FROM categories
                 WHERE name = $category",
                     connection
@@ -250,6 +250,8 @@ public static class DatabaseSeeder
                 command.Parameters.AddWithValue("$name", product.Name);
                 command.Parameters.AddWithValue("$price", product.Price);
                 command.Parameters.AddWithValue("$category", product.Category);
+                command.Parameters.AddWithValue("$description", $"This is {product.Name} in the {product.Category} category");
+                command.Parameters.AddWithValue("$image_url", product.Image_url);
                 await command.ExecuteNonQueryAsync();
                 Console.WriteLine($"Added product: {product.Name} (${product.Price}) in {product.Category}");
             }
