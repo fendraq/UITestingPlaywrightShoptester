@@ -50,7 +50,7 @@ export default function Profile() {
                 {orders.length < 1 ? <p>No orders!</p> :
                     <ul>
                         {orders.map(order => (
-                            <li key={order.id}>
+                            <li key={order.id} id={order.id}>
                                 <p>Order ID: {order.id}</p>
                                 <p>Order Date: {new Intl.DateTimeFormat('se-SE', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(order.created_at)}</p>
                                 <p>Order Product: {order.productName}</p>
