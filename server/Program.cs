@@ -69,7 +69,7 @@ app.MapDelete("/api/login", (Delegate)LoginHandlers.Logout);
 // Users API
 app.MapGet("/api/users", UserHandlers.GetUsers).RequireRole("admin");
 
-app.MapPost("/api/users", UserHandlers.CreateUser).RequireRole("admin");
+app.MapPost("/api/users", UserHandlers.CreateUser);
 
 app.MapGet("/api/users/{id}", UserHandlers.GetUser).RequireRole("admin");
 
