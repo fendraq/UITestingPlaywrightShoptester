@@ -36,6 +36,8 @@ public static class DatabaseSeeder
                 name TEXT NOT NULL UNIQUE,
                 price INTEGER NOT NULL,
                 category_id INTEGER,
+                description TEXT,
+                image_url TEXT,
                 FOREIGN KEY(category_id) REFERENCES categories(id)
                     ON DELETE SET NULL
                     ON UPDATE CASCADE
@@ -43,7 +45,7 @@ public static class DatabaseSeeder
 
         var createProductsView = @"
             CREATE VIEW IF NOT EXISTS products_view AS
-            SELECT products.id, products.name, products.price, categories.name AS category
+            SELECT products.id, products.name, products.price, categories.name, products.description, products.image_url AS category
             FROM products
             LEFT JOIN categories ON products.category_id = categories.id
             ";
