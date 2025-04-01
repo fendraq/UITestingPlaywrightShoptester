@@ -510,3 +510,13 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sw?
+
+# Ignore Playwright and test-related files
+playwright.config.*
+test-results/
+playwright-report/
+tests-examples/
+uiTests/
+*.spec.*
+package-lock.json
+
