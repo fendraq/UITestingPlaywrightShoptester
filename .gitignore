@@ -511,12 +511,14 @@ dist-ssr
 *.njsproj
 *.sw?
 
-# Ignore Playwright and test-related files
-playwright.config.*
+# Ignore all test-related files in main
+UITests/
+*.feature
+*.feature.cs
+StepDefinitions/
 test-results/
 playwright-report/
-tests-examples/
-uiTests/
 *.spec.*
-package-lock.json
+playwright.config.*
+
 
