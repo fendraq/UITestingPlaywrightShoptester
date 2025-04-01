@@ -27,7 +27,9 @@ public static class ProductHandlers
                 reader.GetInt32(0),
                 reader.GetString(1),
                 reader.GetInt32(2),
-                reader.GetString(3)
+                reader.GetString(3),
+                reader.GetString(4),
+                reader.GetString(5)
             );
             products.Add(item);
         }
@@ -47,7 +49,9 @@ public static class ProductHandlers
                 reader.GetInt32(0),
                 reader.GetString(1),
                 reader.GetInt32(2),
-                reader.GetString(3)
+                reader.GetString(3),
+                reader.GetString(4),
+                reader.GetString(5)
             );
             return Results.Ok(product);
         }
@@ -57,15 +61,23 @@ public static class ProductHandlers
     public static async Task<IResult> CreateProduct(SqliteConnection connection, ProductCreate product)
     {
         EnsureConnectionOpen(connection);
-        if (string.IsNullOrWhiteSpace(product.Name) || product.Price == null || product.CategoryId == 0)
-            return Results.BadRequest(new { error = "Name, price, and category_id are required" });
+        if (string.IsNullOrWhiteSpace(product.Name) || product.CategoryId == 0 || product.Price < 0 || product.Description == null)
+            return Results.BadRequest(new { error = "Name, price, and category_id and description is required" });
         if (product.Price < 0)
             return Results.BadRequest(new { error = "Price must be a positive number" });
-        var sql = "INSERT INTO products (name, price, category_id) VALUES ($name, $price, $category_id)";
+        var sql = "INSERT INTO products (name, price, category_id, description, image_url) VALUES ($name, $price, $category_id, $description, $image_url)";
         using var command = new SqliteCommand(sql, connection);
         command.Parameters.AddWithValue("$name", product.Name);
         command.Parameters.AddWithValue("$price", product.Price);
         command.Parameters.AddWithValue("$category_id", product.CategoryId);
+        command.Parameters.AddWithValue("$description", product.Description ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("$image_url", product.Image_url ?? (object)DBNull.Value);
+        // Check if the category exists before inserting the product
+        using var checkCategoryCommand = new SqliteCommand("SELECT COUNT(*) FROM categories WHERE id = $categoryId", connection);
+        checkCategoryCommand.Parameters.AddWithValue("$categoryId", product.CategoryId);
+        var categoryExists = (long?)await checkCategoryCommand.ExecuteScalarAsync() > 0;
+        if (!categoryExists)
+            return Results.NotFound(new { error = $"Category with id {product.CategoryId} not found" });
 
         try
         {
@@ -137,7 +149,9 @@ public static class ProductHandlers
                 reader.GetInt32(0),
                 reader.GetString(1),
                 reader.GetInt32(2),
-                reader.GetString(3)
+                reader.GetString(3),
+                reader.GetString(4),
+                reader.GetString(5)
             );
             Console.WriteLine(item);
             products.Add(item);

@@ -55,8 +55,8 @@ public static class UserHandlers
     public static async Task<IResult> CreateUser(SqliteConnection connection, UserCreate user)
     {
         EnsureConnectionOpen(connection);
-        if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password) || user.RoleId == null)
-            return Results.BadRequest(new { error = "Username, email, password and role are required" });
+        if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password) || user.RoleId < 1 || user.RoleId > 2)
+            return Results.BadRequest(new { error = "Username, email, password are required" });
         var sql = "INSERT INTO users (username, email, password, role_id) VALUES ($username, $email, $password, $role_id)";
         using var command = new SqliteCommand(sql, connection);
         command.Parameters.AddWithValue("$username", user.Username);

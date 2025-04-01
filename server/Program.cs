@@ -18,11 +18,17 @@ builder.Services.AddSession(options =>
 // Creates a SQLite dabasefile in the root folder of the project - if it does not exist already
 builder.Services.AddSingleton(ServiceProvider =>
 {
-    return new SqliteConnection("Data Source=shoptester.db");
+    var connection = new SqliteConnection("Data Source=shoptester.db");
+    connection.Open();
+    return connection;
 });
 
 var app = builder.Build();
 app.UseSession();
+
+// Use static files for the wwwroot folder
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Seed the database with sample data
 var connection = app.Services.GetRequiredService<SqliteConnection>();
@@ -63,7 +69,7 @@ app.MapDelete("/api/login", (Delegate)LoginHandlers.Logout);
 // Users API
 app.MapGet("/api/users", UserHandlers.GetUsers).RequireRole("admin");
 
-app.MapPost("/api/users", UserHandlers.CreateUser).RequireRole("admin");
+app.MapPost("/api/users", UserHandlers.CreateUser);
 
 app.MapGet("/api/users/{id}", UserHandlers.GetUser).RequireRole("admin");
 
