@@ -70,13 +70,13 @@ function Products() {
                 {filteredProducts.length < 1 ? <p>No products!</p> :
                     filteredProducts.map((product) => (
                         <div key={product.id} style={{ margin: 'auto', justifyContent: 'center' }} >
-                            <div id={product.name.toLowerCase().replace(" ", "-")} style={{ backgroundColor: 'gray', borderRadius: '20px', padding: '15px', width: '250px', height: '350px' }}>
+                            <div id={product.name.toLowerCase().replace(/\s+/g, "-")} style={{ backgroundColor: 'gray', borderRadius: '20px', padding: '15px', width: '250px', height: '350px' }}>
                                 <h4>{product.name}</h4>
                                 <img style={{ cursor: 'pointer', width: '200px', height: '220px', backgroundColor: 'white', borderRadius: '10%' }} src={product.image_url} alt={product.name} onClick={() => navigate(`/shop/product/${product.id}`)} />
                                 <p>Price: ${product.price}</p>
                                 <p>{product.description}</p>
                             </div>
-                            <button id={'button-add-' + product.name.toLowerCase().replace(" ", "-")} onClick={() => {
+                            <button id={'button-add-' + product.name.toLowerCase().replace(/\s+/g, "-")} onClick={() => {
                                 addToCart(product);
                                 //console.log('Added to cart:', product.name);
                             }}>
