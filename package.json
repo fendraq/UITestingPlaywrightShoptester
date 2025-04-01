@@ -1,0 +1,14 @@
+{
+  "name": "shoptester",
+  "version": "1.0.0",
+  "description": "A .NET Core Web API application for managing an online shop with products, categories, users, and orders.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.13.15"
+  }
+}
