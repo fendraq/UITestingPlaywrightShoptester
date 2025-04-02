@@ -512,11 +512,11 @@ dist-ssr
 *.sw?
 
 # Ignore Playwright and test-related files
-playwright.config.*
-test-results/
-playwright-report/
-tests-examples/
-uiTests/
-*.spec.*
-package-lock.json
+#playwright.config.*
+#test-results/
+#playwright-report/
+#tests-examples/
+#uiTests/
+#*.spec.*
+#package-lock.json
 
